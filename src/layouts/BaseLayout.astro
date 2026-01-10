@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = "Discover the Japan tourists miss", image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+
+  <title>{title} | Detour Japan</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={canonicalURL}>
+  {image && <meta property="og:image" content={image}>}
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+
+  <link rel="canonical" href={canonicalURL}>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Styles -->
+  <style is:global>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500&display=swap');
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container-wide">
+      <div class="header-content">
+        <div>
+          <a href="/" class="logo">Detour Japan</a>
+          <p class="tagline">Discover the Japan tourists miss</p>
+        </div>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; {new Date().getFullYear()} Detour Japan. All rights reserved.</p>
+      <p>Photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></p>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

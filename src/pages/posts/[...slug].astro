@@ -1,0 +1,102 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.heroImage}
+>
+  <article class="post container">
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime={post.data.pubDate.toISOString()}>
+          {formatDate(post.data.pubDate)}
+        </time>
+        <span class="post-card-tag">{post.data.prefecture}</span>
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class="post-description">{post.data.description}</p>
+    </header>
+
+    {post.data.heroImage && (
+      <figure>
+        <img
+          src={post.data.heroImage}
+          alt={post.data.heroImageAlt || post.data.title}
+          class="post-featured-image"
+        />
+        {post.data.heroImageCredit && (
+          <figcaption class="image-credit">
+            Photo: {post.data.heroImageCredit}
+          </figcaption>
+        )}
+      </figure>
+    )}
+
+    <div class="post-content">
+      <Content />
+    </div>
+
+    <footer class="post-footer">
+      <a href="/" class="back-link">&larr; Back to all posts</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-description {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+
+  .image-credit {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+  }
+
+  .post-footer {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .back-link:hover {
+    color: var(--accent-hover);
+  }
+</style>

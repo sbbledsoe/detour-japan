@@ -1,0 +1,19 @@
+{
+  "name": "detour-japan",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "generate": "node scripts/generate-post.js"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.1",
+    "astro": "^4.0.0"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.32.0"
+  }
+}

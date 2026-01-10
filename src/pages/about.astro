@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="Learn about Detour Japan and our mission to uncover hidden destinations across Japan's 47 prefectures.">
+  <div class="container">
+    <article class="about-content">
+      <h1>About Detour Japan</h1>
+
+      <p>
+        Japan has 47 prefectures, but most visitors only see a handful. Tokyo's neon lights,
+        Kyoto's golden temples, and Osaka's food scene draw millions every year. But what about
+        the other 44 prefectures?
+      </p>
+
+      <p>
+        <strong>Detour Japan</strong> exists to shine a light on the places tourists miss.
+        We explore forgotten castle towns, hidden mountain shrines, coastal villages where
+        fishing boats still return each morning, and rural stations where you might be the
+        only foreigner to visit all year.
+      </p>
+
+      <h2>What We Cover</h2>
+
+      <ul>
+        <li><strong>Hidden Destinations</strong> &ndash; Places that don't appear in typical guidebooks</li>
+        <li><strong>Transportation Guides</strong> &ndash; How to reach remote areas using Japan's excellent public transit</li>
+        <li><strong>Budget Tips</strong> &ndash; Travel smart without breaking the bank</li>
+        <li><strong>Seasonal Insights</strong> &ndash; The best times to visit each location</li>
+      </ul>
+
+      <h2>Our Approach</h2>
+
+      <p>
+        Every destination we feature is accessible by public transportation. No rental car needed.
+        We believe Japan's train and bus networks are part of the adventure, not an obstacle to it.
+      </p>
+
+      <p>
+        We prioritize authenticity over popularity. A quiet temple with two other visitors beats
+        a famous one with two hundred. A local izakaya with handwritten menus offers more than
+        a tourist-friendly restaurant with English photos.
+      </p>
+
+      <div class="transport-box">
+        <h4>Getting Off the Beaten Path</h4>
+        <p>
+          The JR Pass opens doors, but don't overlook local bus lines, community shuttles, and
+          even walking routes. Some of Japan's best experiences are found at the end of a
+          single-track railway line.
+        </p>
+      </div>
+
+      <h2>Join the Detour</h2>
+
+      <p>
+        Whether you're planning your first trip to Japan or your tenth, we hope Detour Japan
+        inspires you to venture beyond the obvious. The real Japan isn't hiding &ndash; it's
+        just waiting for you to look.
+      </p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-content {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-lg) 0;
+  }
+
+  .about-content h1 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .about-content h2 {
+    margin-top: var(--space-xl);
+  }
+
+  .about-content ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .about-content li {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .about-content li:last-child {
+    border-bottom: none;
+  }
+</style>

@@ -1,0 +1,48 @@
+name: Generate Blog Post
+
+on:
+  # Run automatically on Monday and Thursday at 9:00 AM UTC
+  schedule:
+    - cron: "0 9 * * 1"  # Monday at 9 AM UTC
+    - cron: "0 9 * * 4"  # Thursday at 9 AM UTC
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate new blog post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+        run: npm run generate
+
+      - name: Commit and push new draft
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add src/content/drafts/
+          git diff --staged --quiet || git commit -m "Add auto-generated blog post draft"
+          git push

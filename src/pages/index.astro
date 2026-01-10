@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<BaseLayout title="Home" description="Discover the Japan tourists miss - hidden gems, local secrets, and off-the-beaten-path destinations across all 47 prefectures.">
+  <div class="container">
+    <section class="hero">
+      <h1>Detour Japan</h1>
+      <p>Venture beyond Tokyo and Kyoto. Discover hidden temples, forgotten villages, and secret spots across Japan's 47 prefectures.</p>
+    </section>
+
+    <section class="posts-grid">
+      {sortedPosts.length === 0 ? (
+        <div class="empty-state">
+          <p>New adventures coming soon. Check back for our first destination guides!</p>
+        </div>
+      ) : (
+        sortedPosts.map((post) => (
+          <article class="post-card">
+            {post.data.heroImage && (
+              <a href={`/posts/${post.slug}`}>
+                <img
+                  src={post.data.heroImage}
+                  alt={post.data.heroImageAlt || post.data.title}
+                  class="post-card-image"
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <div class="post-card-content">
+              <div class="post-card-meta">
+                <span class="post-card-date">{formatDate(post.data.pubDate)}</span>
+                <span class="post-card-tag">{post.data.prefecture}</span>
+              </div>
+              <a href={`/posts/${post.slug}`}>
+                <h2 class="post-card-title">{post.data.title}</h2>
+              </a>
+              <p class="post-card-excerpt">{post.data.description}</p>
+            </div>
+          </article>
+        ))
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .empty-state {
+    text-align: center;
+    padding: var(--space-2xl);
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .empty-state p {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+</style>
