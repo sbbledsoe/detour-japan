@@ -18,7 +18,7 @@ const mapId = `map-${Math.random().toString(36).substring(7)}`;
 
 <div class="map-container">
   <div id={mapId} class="map"></div>
-  <p class="map-attribution">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
+  <p class="map-attribution">Map data © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a></p>
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -39,8 +39,9 @@ const mapId = `map-${Math.random().toString(36).substring(7)}`;
   function initMap() {
     const map = L.map(mapId).setView([center.lat, center.lng], zoom);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
+      attribution: '&copy; Esri'
     }).addTo(map);
 
     // Add markers for each location
