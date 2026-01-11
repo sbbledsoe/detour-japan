@@ -307,13 +307,13 @@ async function sendNotification(title, prefecture) {
       body: JSON.stringify({
         from: "Detour Japan <noreply@resend.dev>",
         to: email,
-        subject: `New Draft Ready: ${title}`,
+        subject: `New Post Published: ${title}`,
         html: `
-          <h2>New Blog Post Draft Ready for Review</h2>
+          <h2>New Blog Post Published</h2>
           <p><strong>Title:</strong> ${title}</p>
           <p><strong>Prefecture:</strong> ${prefecture}</p>
-          <p>A new blog post has been automatically generated and is waiting for your review.</p>
-          <p><a href="https://detour-japan.github.io/admin/#/collections/drafts">Review Draft in CMS</a></p>
+          <p>A new blog post has been automatically generated and published to your site.</p>
+          <p><a href="https://detourjapan.github.io">View Your Blog</a></p>
           <hr>
           <p style="color: #666; font-size: 12px;">This is an automated message from Detour Japan.</p>
         `,
@@ -382,20 +382,20 @@ heroImageAlt: "Scenic view of ${prefecture.name} Prefecture, Japan"
 heroImageCredit: "${image.credit}"
 prefecture: ${prefecture.name}
 tags: ["${prefecture.region}", "hidden gems", "off the beaten path"]
-draft: true
+draft: false
 ${mapYaml}
 ---
 
 `;
 
-  // Write to drafts folder
-  const draftsDir = path.join(__dirname, "../src/content/drafts");
-  await fs.mkdir(draftsDir, { recursive: true });
+  // Write to posts folder (publish directly)
+  const postsDir = path.join(__dirname, "../src/content/posts");
+  await fs.mkdir(postsDir, { recursive: true });
 
-  const filePath = path.join(draftsDir, `${slug}.md`);
+  const filePath = path.join(postsDir, `${slug}.md`);
   await fs.writeFile(filePath, frontmatter + content);
 
-  console.log(`\nDraft saved to: ${filePath}`);
+  console.log(`\nPost saved to: ${filePath}`);
 
   // Send notification
   await sendNotification(meta.title, prefecture.name);
