@@ -174,25 +174,22 @@ async function fetchUnsplashImage(query) {
 async function generateContent(prefecture) {
   const client = new Anthropic();
 
-  const prompt = `Write a blog post about hidden gems and lesser-known destinations in ${prefecture.name} Prefecture, Japan (${prefecture.region} region).
+  const prompt = `Write a travel essay about ${prefecture.name} Prefecture, Japan (${prefecture.region} region), focusing on hidden gems and lesser-known destinations.
 
-The blog post should be engaging, informative, and aimed at independent travelers who want to explore beyond typical tourist destinations.
+Write in a natural, literary style with flowing multi-paragraph prose. Avoid listicle formats, bullet points, and typical blog structures. Instead, let your writing breathe—use longer paragraphs that paint vivid pictures and weave practical information naturally into the narrative.
 
-Structure the post with these sections:
-1. A compelling introduction about why ${prefecture.name} deserves attention
-2. "Hidden Gems" - 3 specific lesser-known places to visit (temples, nature spots, towns, etc.)
-3. "Getting There & Around" - Public transportation guide from major cities (include specific train lines, approximate times, and JR Pass coverage)
-4. "Best Time to Visit" - Seasonal recommendations
-5. "Budget Tips" - Money-saving advice specific to this area
+Your essay should feel like a personal travel piece in a quality magazine. Describe the atmosphere, the light, the feeling of discovery. When mentioning places, use both English and Japanese names where appropriate.
 
-Requirements:
-- Be specific with place names (use both English and romanized Japanese where appropriate)
-- Include practical details like which JR lines to take
-- Mention approximate travel times from Tokyo or Osaka
-- Keep the tone conversational but informative
-- Total length: approximately 800-1000 words
+Cover these elements organically throughout the piece:
+- Why this prefecture captivates travelers seeking authentic Japan
+- Three or four specific hidden gems worth the journey (temples, coastal towns, mountain villages, local markets)
+- Seasonal considerations and when the region shows its best character
+- Practical notes on getting around once there (local trains, buses, cycling)
+- Ways to travel economically in this area
 
-Format the output as markdown. Do not include a title (I'll add that separately).`;
+Do not include travel times from major cities like Tokyo or Osaka. Focus on the destination itself.
+
+Aim for 800-1000 words. Format as markdown without a title.`;
 
   const response = await client.messages.create({
     model: "claude-sonnet-4-20250514",
