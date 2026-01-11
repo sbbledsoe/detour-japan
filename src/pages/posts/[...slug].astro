@@ -25,6 +25,34 @@ function formatDate(date: Date): string {
     day: 'numeric'
   });
 }
+
+const canonicalURL = new URL(`/posts/${post.slug}/`, Astro.site);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "image": post.data.heroImage,
+  "datePublished": post.data.pubDate.toISOString(),
+  "author": {
+    "@type": "Organization",
+    "name": "Detour Japan"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Detour Japan",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL("/favicon.svg", Astro.site).href
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalURL.href
+  },
+  "keywords": post.data.tags?.join(", ")
+};
 ---
 
 <BaseLayout
@@ -32,6 +60,7 @@ function formatDate(date: Date): string {
   description={post.data.description}
   image={post.data.heroImage}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="post container">
     <header class="post-header">
       <div class="post-meta">

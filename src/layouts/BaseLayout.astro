@@ -16,23 +16,32 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
   <meta name="description" content={description}>
+  <meta name="author" content="Detour Japan">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
 
   <title>{title} | Detour Japan</title>
 
   <!-- Open Graph -->
-  <meta property="og:title" content={title}>
+  <meta property="og:title" content={`${title} | Detour Japan`}>
   <meta property="og:description" content={description}>
   <meta property="og:type" content="website">
   <meta property="og:url" content={canonicalURL}>
+  <meta property="og:site_name" content="Detour Japan">
+  <meta property="og:locale" content="en_US">
   {image && <meta property="og:image" content={image}>}
+  {image && <meta property="og:image:alt" content={title}>}
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content={title}>
   <meta name="twitter:description" content={description}>
+  {image && <meta name="twitter:image" content={image}>}
 
   <link rel="canonical" href={canonicalURL}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate" type="application/rss+xml" title="Detour Japan RSS Feed" href="/rss.xml">
+  <link rel="sitemap" href="/sitemap.xml">
 
   <!-- Styles -->
   <style is:global>
