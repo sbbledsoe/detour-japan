@@ -19,55 +19,55 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Prefecture data with visitor statistics (lower = less visited)
+// Prefecture data with visitor statistics and center coordinates
 const PREFECTURES = [
-  { name: "Tottori", visitors: "low", region: "Chugoku" },
-  { name: "Shimane", visitors: "low", region: "Chugoku" },
-  { name: "Kochi", visitors: "low", region: "Shikoku" },
-  { name: "Tokushima", visitors: "low", region: "Shikoku" },
-  { name: "Saga", visitors: "low", region: "Kyushu" },
-  { name: "Akita", visitors: "low", region: "Tohoku" },
-  { name: "Iwate", visitors: "low", region: "Tohoku" },
-  { name: "Yamagata", visitors: "low", region: "Tohoku" },
-  { name: "Fukui", visitors: "low", region: "Chubu" },
-  { name: "Toyama", visitors: "low", region: "Chubu" },
-  { name: "Niigata", visitors: "medium", region: "Chubu" },
-  { name: "Ishikawa", visitors: "medium", region: "Chubu" },
-  { name: "Ehime", visitors: "medium", region: "Shikoku" },
-  { name: "Kagawa", visitors: "medium", region: "Shikoku" },
-  { name: "Oita", visitors: "medium", region: "Kyushu" },
-  { name: "Miyazaki", visitors: "low", region: "Kyushu" },
-  { name: "Kumamoto", visitors: "medium", region: "Kyushu" },
-  { name: "Nagasaki", visitors: "medium", region: "Kyushu" },
-  { name: "Yamaguchi", visitors: "medium", region: "Chugoku" },
-  { name: "Okayama", visitors: "medium", region: "Chugoku" },
-  { name: "Wakayama", visitors: "medium", region: "Kansai" },
-  { name: "Mie", visitors: "medium", region: "Kansai" },
-  { name: "Shiga", visitors: "medium", region: "Kansai" },
-  { name: "Nara", visitors: "high", region: "Kansai" },
-  { name: "Gifu", visitors: "medium", region: "Chubu" },
-  { name: "Nagano", visitors: "medium", region: "Chubu" },
-  { name: "Yamanashi", visitors: "medium", region: "Chubu" },
-  { name: "Gunma", visitors: "medium", region: "Kanto" },
-  { name: "Tochigi", visitors: "medium", region: "Kanto" },
-  { name: "Ibaraki", visitors: "medium", region: "Kanto" },
-  { name: "Saitama", visitors: "medium", region: "Kanto" },
-  { name: "Chiba", visitors: "medium", region: "Kanto" },
-  { name: "Aomori", visitors: "medium", region: "Tohoku" },
-  { name: "Miyagi", visitors: "medium", region: "Tohoku" },
-  { name: "Fukushima", visitors: "medium", region: "Tohoku" },
-  { name: "Kagoshima", visitors: "medium", region: "Kyushu" },
-  { name: "Fukuoka", visitors: "high", region: "Kyushu" },
-  { name: "Hiroshima", visitors: "high", region: "Chugoku" },
-  { name: "Hyogo", visitors: "high", region: "Kansai" },
-  { name: "Aichi", visitors: "high", region: "Chubu" },
-  { name: "Shizuoka", visitors: "high", region: "Chubu" },
-  { name: "Kanagawa", visitors: "high", region: "Kanto" },
-  { name: "Hokkaido", visitors: "high", region: "Hokkaido" },
-  { name: "Okinawa", visitors: "high", region: "Okinawa" },
-  { name: "Kyoto", visitors: "very_high", region: "Kansai" },
-  { name: "Osaka", visitors: "very_high", region: "Kansai" },
-  { name: "Tokyo", visitors: "very_high", region: "Kanto" },
+  { name: "Tottori", visitors: "low", region: "Chugoku", lat: 35.5, lng: 134.2, zoom: 9 },
+  { name: "Shimane", visitors: "low", region: "Chugoku", lat: 35.1, lng: 132.5, zoom: 9 },
+  { name: "Kochi", visitors: "low", region: "Shikoku", lat: 33.5, lng: 133.5, zoom: 9 },
+  { name: "Tokushima", visitors: "low", region: "Shikoku", lat: 33.9, lng: 134.4, zoom: 9 },
+  { name: "Saga", visitors: "low", region: "Kyushu", lat: 33.3, lng: 130.0, zoom: 9 },
+  { name: "Akita", visitors: "low", region: "Tohoku", lat: 39.7, lng: 140.1, zoom: 8 },
+  { name: "Iwate", visitors: "low", region: "Tohoku", lat: 39.5, lng: 141.5, zoom: 8 },
+  { name: "Yamagata", visitors: "low", region: "Tohoku", lat: 38.2, lng: 140.0, zoom: 9 },
+  { name: "Fukui", visitors: "low", region: "Chubu", lat: 35.8, lng: 136.2, zoom: 9 },
+  { name: "Toyama", visitors: "low", region: "Chubu", lat: 36.7, lng: 137.2, zoom: 9 },
+  { name: "Niigata", visitors: "medium", region: "Chubu", lat: 37.5, lng: 139.0, zoom: 8 },
+  { name: "Ishikawa", visitors: "medium", region: "Chubu", lat: 36.6, lng: 136.6, zoom: 9 },
+  { name: "Ehime", visitors: "medium", region: "Shikoku", lat: 33.8, lng: 132.8, zoom: 9 },
+  { name: "Kagawa", visitors: "medium", region: "Shikoku", lat: 34.2, lng: 134.0, zoom: 10 },
+  { name: "Oita", visitors: "medium", region: "Kyushu", lat: 33.2, lng: 131.5, zoom: 9 },
+  { name: "Miyazaki", visitors: "low", region: "Kyushu", lat: 32.2, lng: 131.4, zoom: 9 },
+  { name: "Kumamoto", visitors: "medium", region: "Kyushu", lat: 32.8, lng: 130.7, zoom: 9 },
+  { name: "Nagasaki", visitors: "medium", region: "Kyushu", lat: 32.9, lng: 129.9, zoom: 9 },
+  { name: "Yamaguchi", visitors: "medium", region: "Chugoku", lat: 34.2, lng: 131.5, zoom: 9 },
+  { name: "Okayama", visitors: "medium", region: "Chugoku", lat: 34.7, lng: 133.9, zoom: 9 },
+  { name: "Wakayama", visitors: "medium", region: "Kansai", lat: 33.9, lng: 135.5, zoom: 9 },
+  { name: "Mie", visitors: "medium", region: "Kansai", lat: 34.5, lng: 136.5, zoom: 9 },
+  { name: "Shiga", visitors: "medium", region: "Kansai", lat: 35.2, lng: 136.1, zoom: 9 },
+  { name: "Nara", visitors: "high", region: "Kansai", lat: 34.4, lng: 135.8, zoom: 10 },
+  { name: "Gifu", visitors: "medium", region: "Chubu", lat: 35.8, lng: 137.0, zoom: 9 },
+  { name: "Nagano", visitors: "medium", region: "Chubu", lat: 36.2, lng: 138.0, zoom: 8 },
+  { name: "Yamanashi", visitors: "medium", region: "Chubu", lat: 35.6, lng: 138.6, zoom: 9 },
+  { name: "Gunma", visitors: "medium", region: "Kanto", lat: 36.5, lng: 139.0, zoom: 9 },
+  { name: "Tochigi", visitors: "medium", region: "Kanto", lat: 36.7, lng: 139.9, zoom: 9 },
+  { name: "Ibaraki", visitors: "medium", region: "Kanto", lat: 36.3, lng: 140.3, zoom: 9 },
+  { name: "Saitama", visitors: "medium", region: "Kanto", lat: 35.9, lng: 139.6, zoom: 10 },
+  { name: "Chiba", visitors: "medium", region: "Kanto", lat: 35.5, lng: 140.2, zoom: 9 },
+  { name: "Aomori", visitors: "medium", region: "Tohoku", lat: 40.8, lng: 140.7, zoom: 8 },
+  { name: "Miyagi", visitors: "medium", region: "Tohoku", lat: 38.4, lng: 140.9, zoom: 9 },
+  { name: "Fukushima", visitors: "medium", region: "Tohoku", lat: 37.4, lng: 140.0, zoom: 8 },
+  { name: "Kagoshima", visitors: "medium", region: "Kyushu", lat: 31.6, lng: 130.5, zoom: 9 },
+  { name: "Fukuoka", visitors: "high", region: "Kyushu", lat: 33.6, lng: 130.7, zoom: 9 },
+  { name: "Hiroshima", visitors: "high", region: "Chugoku", lat: 34.4, lng: 132.5, zoom: 9 },
+  { name: "Hyogo", visitors: "high", region: "Kansai", lat: 35.0, lng: 134.8, zoom: 9 },
+  { name: "Aichi", visitors: "high", region: "Chubu", lat: 35.0, lng: 137.0, zoom: 9 },
+  { name: "Shizuoka", visitors: "high", region: "Chubu", lat: 35.0, lng: 138.4, zoom: 9 },
+  { name: "Kanagawa", visitors: "high", region: "Kanto", lat: 35.4, lng: 139.4, zoom: 10 },
+  { name: "Hokkaido", visitors: "high", region: "Hokkaido", lat: 43.5, lng: 142.5, zoom: 7 },
+  { name: "Okinawa", visitors: "high", region: "Okinawa", lat: 26.5, lng: 127.9, zoom: 9 },
+  { name: "Kyoto", visitors: "very_high", region: "Kansai", lat: 35.0, lng: 135.8, zoom: 9 },
+  { name: "Osaka", visitors: "very_high", region: "Kansai", lat: 34.7, lng: 135.5, zoom: 10 },
+  { name: "Tokyo", visitors: "very_high", region: "Kanto", lat: 35.7, lng: 139.7, zoom: 10 },
 ];
 
 // Track which prefectures we've covered
@@ -205,6 +205,42 @@ Aim for 800-1000 words. Format as markdown without a title.`;
   return response.content[0].text;
 }
 
+// Generate map locations based on content
+async function generateMapLocations(prefecture, content) {
+  const client = new Anthropic();
+
+  const response = await client.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 500,
+    messages: [
+      {
+        role: "user",
+        content: `Based on this blog post about ${prefecture.name} Prefecture, Japan, identify 3-4 specific locations mentioned and provide their coordinates.
+
+Blog content:
+${content}
+
+Respond ONLY with valid JSON in this exact format (no markdown, no explanation):
+[
+  {"name": "Location Name", "lat": 35.1234, "lng": 134.5678},
+  {"name": "Another Location", "lat": 35.2345, "lng": 134.6789}
+]
+
+Use accurate coordinates for real places in ${prefecture.name} Prefecture. Include only places specifically mentioned in the post.`,
+      },
+    ],
+  });
+
+  try {
+    const text = response.content[0].text.trim();
+    const locations = JSON.parse(text);
+    return locations;
+  } catch (error) {
+    console.error("Failed to parse map locations:", error);
+    return [];
+  }
+}
+
 // Generate title and description
 async function generateMeta(prefecture, content) {
   const client = new Anthropic();
@@ -311,9 +347,31 @@ async function main() {
   console.log("Fetching image from Unsplash...");
   const image = await fetchUnsplashImage(prefecture.name);
 
+  // Generate map locations
+  console.log("Generating map locations...");
+  const mapLocations = await generateMapLocations(prefecture, content);
+
   // Create frontmatter
   const slug = slugify(meta.title);
   const date = new Date().toISOString();
+
+  // Build map YAML
+  let mapYaml = `map:
+  center:
+    lat: ${prefecture.lat}
+    lng: ${prefecture.lng}
+  zoom: ${prefecture.zoom}`;
+
+  if (mapLocations.length > 0) {
+    mapYaml += `
+  locations:`;
+    for (const loc of mapLocations) {
+      mapYaml += `
+    - name: "${loc.name}"
+      lat: ${loc.lat}
+      lng: ${loc.lng}`;
+    }
+  }
 
   const frontmatter = `---
 title: "${meta.title}"
@@ -325,6 +383,7 @@ heroImageCredit: "${image.credit}"
 prefecture: ${prefecture.name}
 tags: ["${prefecture.region}", "hidden gems", "off the beaten path"]
 draft: true
+${mapYaml}
 ---
 
 `;
