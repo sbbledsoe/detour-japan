@@ -187,7 +187,7 @@ Cover these elements organically throughout the piece:
 - Practical notes on getting around once there (local trains, buses, cycling)
 - Ways to travel economically in this area
 
-Do not include travel times from major cities like Tokyo or Osaka. Focus on the destination itself.
+Do not include travel times from major cities like Tokyo or Osaka. Do not include specific prices or costs in yen, as these fluctuate over time. Focus on the destination itself.
 
 Aim for 800-1000 words. Format as markdown without a title.`;
 
