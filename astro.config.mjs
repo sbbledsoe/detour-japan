@@ -1,8 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://sbbledsoe.github.io',
-  base: '/detour-japan',
+  site: 'https://detourjapan.github.io',
   output: 'static',
   build: {
     assets: 'assets'
