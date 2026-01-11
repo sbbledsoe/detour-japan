@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Map from '../../components/Map.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -56,6 +57,15 @@ function formatDate(date: Date): string {
           </figcaption>
         )}
       </figure>
+    )}
+
+    {post.data.map && (
+      <Map
+        center={post.data.map.center}
+        zoom={post.data.map.zoom}
+        locations={post.data.map.locations}
+        prefecture={post.data.prefecture}
+      />
     )}
 
     <div class="post-content">

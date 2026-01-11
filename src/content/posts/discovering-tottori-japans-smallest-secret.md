@@ -8,6 +8,21 @@ heroImageCredit: "Unsplash"
 prefecture: Tottori
 tags: ["Chugoku", "hidden gems", "off the beaten path", "sand dunes"]
 draft: false
+map:
+  center:
+    lat: 35.5
+    lng: 134.2
+  zoom: 9
+  locations:
+    - name: "Tottori Sand Dunes"
+      lat: 35.5403
+      lng: 134.2294
+    - name: "Misasa Onsen"
+      lat: 35.4077
+      lng: 133.8609
+    - name: "Uradome Coast"
+      lat: 35.6167
+      lng: 134.45
 ---
 
 There is a particular quality of light in Tottori that exists nowhere else in Japan. It comes in the early morning, when the sun rises over the Sea of Japan and catches the rippled surface of sand dunes that shouldn't exist in this country of forests and mountains. The Tottori Sakyu stretch for sixteen kilometers along the coast, reaching heights of fifty meters, their surfaces carved into delicate patterns by winds that have shaped them for over a hundred thousand years. Standing here at dawn, with no footprints yet disturbing the sand and the only sound the distant crash of waves, you understand why this place remains Japan's most beautiful secret.

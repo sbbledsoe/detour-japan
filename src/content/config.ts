@@ -1,5 +1,20 @@
 import { defineCollection, z } from 'astro:content';
 
+const locationSchema = z.object({
+  name: z.string(),
+  lat: z.number(),
+  lng: z.number(),
+});
+
+const mapSchema = z.object({
+  center: z.object({
+    lat: z.number(),
+    lng: z.number(),
+  }),
+  zoom: z.number().optional(),
+  locations: z.array(locationSchema).optional(),
+});
+
 const postsCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -13,6 +28,7 @@ const postsCollection = defineCollection({
     prefecture: z.string(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    map: mapSchema.optional(),
   }),
 });
 
