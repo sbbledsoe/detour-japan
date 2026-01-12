@@ -201,16 +201,19 @@ function extractImagePlaceholders(content) {
 }
 
 // Fetch multiple images from Unsplash for inline content
+// IMPORTANT: Only fetches images specifically from the target prefecture to avoid
+// pulling images from other regions (e.g., Osaka images appearing in Tottori posts)
 async function fetchContentImages(placeholders, prefecture) {
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
   const images = [];
 
-  // Generic fallback searches for when specific searches fail
-  const fallbackSearches = [
+  // All fallback searches MUST include the prefecture name to ensure location accuracy
+  // It's better to have fewer images than images from the wrong prefecture
+  const prefectureFallbackSearches = [
     `${prefecture.name} Japan landscape`,
+    `${prefecture.name} Japan scenery`,
+    `${prefecture.name} Prefecture`,
     `${prefecture.name} Japan`,
-    "Japan rural landscape",
-    "Japan nature scenic",
   ];
 
   async function searchUnsplash(query) {
@@ -241,27 +244,23 @@ async function fetchContentImages(placeholders, prefecture) {
     }
 
     try {
-      // Try specific search with prefecture
+      // Try specific search with prefecture - this is the preferred search
       const searchQuery = `${placeholder.searchTerm} ${prefecture.name} Japan`;
       let data = await searchUnsplash(searchQuery);
 
-      // If no results, try without prefecture
-      if (!data.results || data.results.length === 0) {
-        console.log(`No results for "${searchQuery}", trying broader search...`);
-        data = await searchUnsplash(`${placeholder.searchTerm} Japan`);
-      }
-
-      // If still no results, try extracting key words from search term
+      // If no results, try with just prefecture name + keywords (still prefecture-specific)
       if (!data.results || data.results.length === 0) {
         const keywords = placeholder.searchTerm.split(" ").slice(0, 2).join(" ");
-        console.log(`No results, trying keywords: "${keywords} Japan"`);
-        data = await searchUnsplash(`${keywords} Japan`);
+        const prefectureKeywordSearch = `${keywords} ${prefecture.name} Japan`;
+        console.log(`No results for "${searchQuery}", trying: "${prefectureKeywordSearch}"`);
+        data = await searchUnsplash(prefectureKeywordSearch);
       }
 
-      // If still no results, use fallback searches
+      // If still no results, use prefecture-only fallback searches
+      // These ensure we only get images from the correct prefecture
       if (!data.results || data.results.length === 0) {
-        for (const fallbackQuery of fallbackSearches) {
-          console.log(`Trying fallback search: "${fallbackQuery}"`);
+        for (const fallbackQuery of prefectureFallbackSearches) {
+          console.log(`Trying prefecture-specific fallback: "${fallbackQuery}"`);
           data = await searchUnsplash(fallbackQuery);
           if (data.results && data.results.length > 0) break;
         }
@@ -276,9 +275,10 @@ async function fetchContentImages(placeholders, prefecture) {
           credit: `${photo.user.name} on Unsplash`,
           alt: placeholder.searchTerm,
         });
+        console.log(`Found image for ${prefecture.name}: ${placeholder.searchTerm}`);
       } else {
-        // No image found at all - remove the placeholder
-        console.warn(`No Unsplash image found for: ${placeholder.searchTerm}`);
+        // No prefecture-specific image found - remove placeholder rather than use wrong location
+        console.warn(`No ${prefecture.name}-specific image found for: ${placeholder.searchTerm} (placeholder will be removed)`);
         images.push({
           placeholder: placeholder.fullMatch,
           url: null,
