@@ -6,8 +6,13 @@ on:
     - cron: "0 9 * * 1"  # Monday at 9 AM UTC
     - cron: "0 9 * * 4"  # Thursday at 9 AM UTC
 
-  # Allow manual trigger
+  # Allow manual trigger with optional prefecture selection
   workflow_dispatch:
+    inputs:
+      prefecture:
+        description: "Specific prefecture to write about (leave empty for auto-select)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -37,6 +42,7 @@ jobs:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+          PREFECTURE: ${{ inputs.prefecture }}
         run: npm run generate
 
       - name: Commit and push new post

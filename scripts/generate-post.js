@@ -99,6 +99,20 @@ async function getExistingPrefectures() {
 
 // Select next prefecture (prioritize least visited, avoid repeats)
 async function selectPrefecture() {
+  // Check for override via environment variable
+  const prefectureOverride = process.env.PREFECTURE;
+  if (prefectureOverride) {
+    const specified = PREFECTURES.find(
+      (p) => p.name.toLowerCase() === prefectureOverride.toLowerCase()
+    );
+    if (specified) {
+      console.log(`Using specified prefecture: ${specified.name}`);
+      return specified;
+    } else {
+      console.warn(`Prefecture "${prefectureOverride}" not found, using random selection`);
+    }
+  }
+
   const existing = await getExistingPrefectures();
 
   // Filter out already covered prefectures
@@ -170,6 +184,125 @@ async function fetchUnsplashImage(query) {
   };
 }
 
+// Extract image placeholders from content
+function extractImagePlaceholders(content) {
+  const regex = /\[IMAGE:\s*([^\]]+)\]/g;
+  const placeholders = [];
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    placeholders.push({
+      fullMatch: match[0],
+      searchTerm: match[1].trim(),
+    });
+  }
+
+  return placeholders;
+}
+
+// Fetch multiple images from Unsplash for inline content
+async function fetchContentImages(placeholders, prefecture) {
+  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+  const images = [];
+
+  for (const placeholder of placeholders) {
+    // Add prefecture name to search for more relevant results
+    const searchQuery = `${placeholder.searchTerm} ${prefecture.name} Japan`;
+
+    if (!accessKey) {
+      images.push({
+        placeholder: placeholder.fullMatch,
+        url: `https://source.unsplash.com/featured/?japan,${encodeURIComponent(placeholder.searchTerm)}`,
+        credit: "Unsplash",
+        alt: placeholder.searchTerm,
+      });
+      continue;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+          searchQuery
+        )}&orientation=landscape&per_page=5`,
+        {
+          headers: {
+            Authorization: `Client-ID ${accessKey}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.results && data.results.length > 0) {
+        // Pick a random image from top 5 results for variety
+        const randomIndex = Math.floor(Math.random() * Math.min(data.results.length, 5));
+        const photo = data.results[randomIndex];
+        images.push({
+          placeholder: placeholder.fullMatch,
+          url: photo.urls.regular,
+          credit: `${photo.user.name} on Unsplash`,
+          alt: placeholder.searchTerm,
+        });
+      } else {
+        // Fallback: try a broader search without prefecture
+        const fallbackResponse = await fetch(
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+            placeholder.searchTerm + " Japan"
+          )}&orientation=landscape&per_page=5`,
+          {
+            headers: {
+              Authorization: `Client-ID ${accessKey}`,
+            },
+          }
+        );
+
+        const fallbackData = await fallbackResponse.json();
+
+        if (fallbackData.results && fallbackData.results.length > 0) {
+          const randomIndex = Math.floor(Math.random() * Math.min(fallbackData.results.length, 5));
+          const photo = fallbackData.results[randomIndex];
+          images.push({
+            placeholder: placeholder.fullMatch,
+            url: photo.urls.regular,
+            credit: `${photo.user.name} on Unsplash`,
+            alt: placeholder.searchTerm,
+          });
+        } else {
+          // Final fallback
+          images.push({
+            placeholder: placeholder.fullMatch,
+            url: `https://source.unsplash.com/featured/?japan,${encodeURIComponent(placeholder.searchTerm)}`,
+            credit: "Unsplash",
+            alt: placeholder.searchTerm,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(`Unsplash error for "${placeholder.searchTerm}":`, error);
+      images.push({
+        placeholder: placeholder.fullMatch,
+        url: `https://source.unsplash.com/featured/?japan,${encodeURIComponent(placeholder.searchTerm)}`,
+        credit: "Unsplash",
+        alt: placeholder.searchTerm,
+      });
+    }
+  }
+
+  return images;
+}
+
+// Replace image placeholders with markdown images
+function replaceImagePlaceholders(content, images) {
+  let updatedContent = content;
+
+  for (const image of images) {
+    const markdownImage = `![${image.alt}](${image.url})\n*Photo: ${image.credit}*`;
+    updatedContent = updatedContent.replace(image.placeholder, markdownImage);
+  }
+
+  return updatedContent;
+}
+
 // Generate blog post content using Claude
 async function generateContent(prefecture) {
   const client = new Anthropic();
@@ -179,6 +312,13 @@ async function generateContent(prefecture) {
 Write in a natural, literary style with flowing multi-paragraph prose. Avoid listicle formats, bullet points, and typical blog structures. Instead, let your writing breathe—use longer paragraphs that paint vivid pictures and weave practical information naturally into the narrative.
 
 Your essay should feel like a personal travel piece in a quality magazine. Describe the atmosphere, the light, the feeling of discovery. When mentioning places, use both English and Japanese names where appropriate.
+
+IMPORTANT: Include exactly 2-3 image placeholders throughout your essay, placed between paragraphs at natural break points. Use this exact format:
+[IMAGE: descriptive search term for the location]
+
+For example: [IMAGE: Tottori sand dunes sunset] or [IMAGE: traditional Japanese temple garden]
+
+The search terms should be specific and descriptive enough to find relevant photos on Unsplash. Focus on the actual attractions, landscapes, or scenes you're describing in that section of the essay.
 
 Cover these elements organically throughout the piece:
 - Why this prefecture captivates travelers seeking authentic Japan
@@ -337,15 +477,26 @@ async function main() {
 
   // Generate content
   console.log("Generating content with Claude...");
-  const content = await generateContent(prefecture);
+  let content = await generateContent(prefecture);
 
   // Generate meta
   console.log("Generating title and description...");
   const meta = await generateMeta(prefecture, content);
 
-  // Fetch image
-  console.log("Fetching image from Unsplash...");
+  // Fetch hero image
+  console.log("Fetching hero image from Unsplash...");
   const image = await fetchUnsplashImage(prefecture.name);
+
+  // Extract and fetch inline content images
+  console.log("Processing inline images...");
+  const imagePlaceholders = extractImagePlaceholders(content);
+  console.log(`Found ${imagePlaceholders.length} image placeholders`);
+
+  if (imagePlaceholders.length > 0) {
+    const contentImages = await fetchContentImages(imagePlaceholders, prefecture);
+    content = replaceImagePlaceholders(content, contentImages);
+    console.log(`Replaced ${contentImages.length} images in content`);
+  }
 
   // Generate map locations
   console.log("Generating map locations...");

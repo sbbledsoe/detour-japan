@@ -23,8 +23,8 @@
 Posts are automatically generated and **published directly** (no draft approval step):
 1. GitHub Action runs Mon/Thu at 9 AM UTC (or manual trigger)
 2. Script selects a prefecture (prioritizes least-visited)
-3. Claude generates 800-1000 word literary essay
-4. Unsplash provides hero image
+3. Claude generates 800-1000 word literary essay with 2-3 image placeholders
+4. Unsplash provides hero image + 2-3 inline images for attractions/destinations
 5. Claude extracts map locations with coordinates
 6. Post saved to `src/content/posts/` with `draft: false`
 7. Email notification sent confirming publication

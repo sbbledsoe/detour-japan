@@ -318,7 +318,25 @@ a:hover {
 .post-content img {
   width: 100%;
   border-radius: 6px;
-  margin: var(--space-lg) 0;
+  margin: var(--space-lg) 0 var(--space-xs) 0;
+}
+
+/* Style for photo credits following images */
+.post-content p:has(> img) + p:has(> em:only-child),
+.post-content p > em:only-child {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0;
+  margin-bottom: var(--space-lg);
+  font-style: normal;
+}
+
+/* Ensure caption paragraphs don't have excess margin */
+.post-content p:has(> em:only-child) {
+  margin-top: 0;
+  margin-bottom: var(--space-lg);
 }
 
 .post-content blockquote {
