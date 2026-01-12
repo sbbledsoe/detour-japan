@@ -205,36 +205,69 @@ async function fetchContentImages(placeholders, prefecture) {
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
   const images = [];
 
-  for (const placeholder of placeholders) {
-    // Add prefecture name to search for more relevant results
-    const searchQuery = `${placeholder.searchTerm} ${prefecture.name} Japan`;
+  // Generic fallback searches for when specific searches fail
+  const fallbackSearches = [
+    `${prefecture.name} Japan landscape`,
+    `${prefecture.name} Japan`,
+    "Japan rural landscape",
+    "Japan nature scenic",
+  ];
 
+  async function searchUnsplash(query) {
+    const response = await fetch(
+      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+        query
+      )}&orientation=landscape&per_page=5`,
+      {
+        headers: {
+          Authorization: `Client-ID ${accessKey}`,
+        },
+      }
+    );
+    return response.json();
+  }
+
+  for (const placeholder of placeholders) {
     if (!accessKey) {
+      console.warn(`No Unsplash API key, skipping image for: ${placeholder.searchTerm}`);
+      // Remove placeholder entirely if no API key
       images.push({
         placeholder: placeholder.fullMatch,
-        url: `https://source.unsplash.com/featured/?japan,${encodeURIComponent(placeholder.searchTerm)}`,
-        credit: "Unsplash",
+        url: null,
+        credit: null,
         alt: placeholder.searchTerm,
       });
       continue;
     }
 
     try {
-      const response = await fetch(
-        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-          searchQuery
-        )}&orientation=landscape&per_page=5`,
-        {
-          headers: {
-            Authorization: `Client-ID ${accessKey}`,
-          },
-        }
-      );
+      // Try specific search with prefecture
+      const searchQuery = `${placeholder.searchTerm} ${prefecture.name} Japan`;
+      let data = await searchUnsplash(searchQuery);
 
-      const data = await response.json();
+      // If no results, try without prefecture
+      if (!data.results || data.results.length === 0) {
+        console.log(`No results for "${searchQuery}", trying broader search...`);
+        data = await searchUnsplash(`${placeholder.searchTerm} Japan`);
+      }
+
+      // If still no results, try extracting key words from search term
+      if (!data.results || data.results.length === 0) {
+        const keywords = placeholder.searchTerm.split(" ").slice(0, 2).join(" ");
+        console.log(`No results, trying keywords: "${keywords} Japan"`);
+        data = await searchUnsplash(`${keywords} Japan`);
+      }
+
+      // If still no results, use fallback searches
+      if (!data.results || data.results.length === 0) {
+        for (const fallbackQuery of fallbackSearches) {
+          console.log(`Trying fallback search: "${fallbackQuery}"`);
+          data = await searchUnsplash(fallbackQuery);
+          if (data.results && data.results.length > 0) break;
+        }
+      }
 
       if (data.results && data.results.length > 0) {
-        // Pick a random image from top 5 results for variety
         const randomIndex = Math.floor(Math.random() * Math.min(data.results.length, 5));
         const photo = data.results[randomIndex];
         images.push({
@@ -244,45 +277,21 @@ async function fetchContentImages(placeholders, prefecture) {
           alt: placeholder.searchTerm,
         });
       } else {
-        // Fallback: try a broader search without prefecture
-        const fallbackResponse = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-            placeholder.searchTerm + " Japan"
-          )}&orientation=landscape&per_page=5`,
-          {
-            headers: {
-              Authorization: `Client-ID ${accessKey}`,
-            },
-          }
-        );
-
-        const fallbackData = await fallbackResponse.json();
-
-        if (fallbackData.results && fallbackData.results.length > 0) {
-          const randomIndex = Math.floor(Math.random() * Math.min(fallbackData.results.length, 5));
-          const photo = fallbackData.results[randomIndex];
-          images.push({
-            placeholder: placeholder.fullMatch,
-            url: photo.urls.regular,
-            credit: `${photo.user.name} on Unsplash`,
-            alt: placeholder.searchTerm,
-          });
-        } else {
-          // Final fallback
-          images.push({
-            placeholder: placeholder.fullMatch,
-            url: `https://source.unsplash.com/featured/?japan,${encodeURIComponent(placeholder.searchTerm)}`,
-            credit: "Unsplash",
-            alt: placeholder.searchTerm,
-          });
-        }
+        // No image found at all - remove the placeholder
+        console.warn(`No Unsplash image found for: ${placeholder.searchTerm}`);
+        images.push({
+          placeholder: placeholder.fullMatch,
+          url: null,
+          credit: null,
+          alt: placeholder.searchTerm,
+        });
       }
     } catch (error) {
       console.error(`Unsplash error for "${placeholder.searchTerm}":`, error);
       images.push({
         placeholder: placeholder.fullMatch,
-        url: `https://source.unsplash.com/featured/?japan,${encodeURIComponent(placeholder.searchTerm)}`,
-        credit: "Unsplash",
+        url: null,
+        credit: null,
         alt: placeholder.searchTerm,
       });
     }
@@ -296,8 +305,13 @@ function replaceImagePlaceholders(content, images) {
   let updatedContent = content;
 
   for (const image of images) {
-    const markdownImage = `![${image.alt}](${image.url})\n*Photo: ${image.credit}*`;
-    updatedContent = updatedContent.replace(image.placeholder, markdownImage);
+    if (image.url) {
+      const markdownImage = `![${image.alt}](${image.url})\n*Photo: ${image.credit}*`;
+      updatedContent = updatedContent.replace(image.placeholder, markdownImage);
+    } else {
+      // No image found - remove the placeholder entirely
+      updatedContent = updatedContent.replace(image.placeholder, "");
+    }
   }
 
   return updatedContent;

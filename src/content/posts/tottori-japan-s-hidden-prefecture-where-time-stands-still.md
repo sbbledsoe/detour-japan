@@ -39,8 +39,8 @@ Perhaps nowhere is this timeless quality more evident than at Daisen-ji Temple (
 
 The prefecture's coastal regions harbor equally compelling secrets. Uradome Coast (浦富海岸), stretching between Tottori City and the hot spring town of Iwami, presents a rugged beauty that rivals any Mediterranean coastline. Here, granite cliffs carved by centuries of waves create hidden coves and sea caves accessible only by kayak or on foot. The coastal trail winds through pine forests that cling impossibly to clifftops, offering glimpses of turquoise water and white sand beaches that remain blissfully uncrowded even in peak summer. Local fishermen still launch their boats at dawn from tiny harbors, their weathered faces telling stories of generations spent reading the moods of this temperamental sea.
 
-![Uradome Coast granite cliffs turquoise water](https://source.unsplash.com/featured/?japan,Uradome%20Coast%20granite%20cliffs%20turquoise%20water)
-*Photo: Unsplash*
+![Uradome Coast granite cliffs turquoise water](https://images.unsplash.com/photo-1590559899731-a382839e5549?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080)
+*Photo: Sora Sagano on Unsplash*
 
 For those seeking even deeper immersion in traditional Japan, the mountain village of Misasa Onsen (三朝温泉) offers hot springs renowned for their healing properties since the Heian period. Unlike the resort atmosphere of more famous spa towns, Misasa retains the intimate character of a place where visitors are welcomed into a community rather than served as customers. The narrow streets lined with traditional inns (ryokan) come alive in the evening as guests emerge in cotton yukata robes for post-bath strolls. The hot spring water here contains radon, believed by locals to promote longevity—whether or not science supports such claims, there's something undeniably restorative about soaking in these mineral-rich waters while gazing up at stars unpolluted by city lights.
 
