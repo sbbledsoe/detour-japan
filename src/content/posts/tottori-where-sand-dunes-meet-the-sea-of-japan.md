@@ -1,6 +1,6 @@
 ---
-title: "Tottori: Japan's Hidden Prefecture Where Time Stands Still"
-description: "Discover Japan's least populated prefecture, where ancient sand dunes meet authentic culture. Escape the crowds and explore Tottori's timeless secrets."
+title: "Tottori: Where Sand Dunes Meet the Sea of Japan"
+description: "Discover Japan's least populated prefecture, where ancient sand dunes meet authentic culture and timeless traditions await those who venture beyond the crowds."
 pubDate: 2026-01-12T02:45:13.407Z
 heroImage: "https://images.unsplash.com/photo-1725777267695-52e72342c0ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NTU0ODB8MHwxfHNlYXJjaHwxfHxUb3R0b3JpJTIwamFwYW58ZW58MHwwfHx8MTc2ODE4NTkwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
 heroImageAlt: "Scenic view of Tottori Prefecture, Japan"
