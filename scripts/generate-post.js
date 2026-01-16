@@ -409,6 +409,13 @@ async function generateMeta(prefecture, content) {
 1. A compelling blog title (max 60 characters)
 2. A meta description (max 155 characters)
 
+IMPORTANT for titles: Vary your style. Avoid overused words like "hidden", "secret", "undiscovered", "gem". Instead, try approaches like:
+- Evocative imagery: "Tottori: Where Sand Dunes Meet the Sea"
+- Poetic phrasing: "Shimane: Land of Ancient Myths"
+- Intriguing questions or statements: "Why Travelers Are Finding Fukui"
+- Sensory language: "The Quiet Beauty of Akita"
+- Cultural hooks: "Saga: Pottery, Shrines, and Coastal Calm"
+
 Blog content:
 ${content.substring(0, 500)}...
 
@@ -426,10 +433,10 @@ DESCRIPTION: [your description]`,
   return {
     title:
       titleMatch?.[1]?.trim() ||
-      `Discovering ${prefecture.name}: Japan's Hidden Gem`,
+      `${prefecture.name}: A Journey Off the Beaten Path`,
     description:
       descMatch?.[1]?.trim() ||
-      `Explore the lesser-known attractions of ${prefecture.name} Prefecture with our complete guide to hidden destinations.`,
+      `Explore the authentic attractions of ${prefecture.name} Prefecture, from local temples to coastal towns and mountain villages.`,
   };
 }
 
