@@ -1,6 +1,6 @@
 ---
 title: "Tokushima: Shikoku's Mountain Villages and Sacred Paths"
-description: "Discover Tokushima Prefecture on Shikoku Island. Explore misty cedar forests, peaceful fishing villages, and sacred pilgrimage temples in Japan's most unhurried corner."
+description: "Shikoku Island's Tokushima Prefecture unfolds through misty cedar forests, peaceful fishing villages, and sacred pilgrimage temples in Japan's most unhurried corner."
 pubDate: 2026-01-15T09:51:55.325Z
 heroImage: "https://images.unsplash.com/photo-1663055962026-6285d439cb21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NTU0ODB8MHwxfHNlYXJjaHwxfHxUb2t1c2hpbWElMjBqYXBhbnxlbnwwfDB8fHwxNzY4NDY4ODI2fDA&ixlib=rb-4.1.0&q=80&w=1080"
 heroImageAlt: "Scenic view of Tokushima Prefecture, Japan"

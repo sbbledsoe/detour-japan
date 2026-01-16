@@ -1,6 +1,6 @@
 ---
 title: "Miyazaki: Land of Myths and Sacred Gorges"
-description: "Discover Miyazaki Prefecture's ancient cedar forests, volcanic slopes, and legendary coastlines where Japanese mythology comes alive amid dramatic natural beauty."
+description: "Ancient cedar forests, volcanic slopes, and legendary coastlines define Miyazaki Prefecture, where Japanese mythology comes alive amid dramatic natural beauty."
 pubDate: 2026-01-12T09:32:27.557Z
 heroImage: "https://images.unsplash.com/photo-1575470887991-6a77735725e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NTU0ODB8MHwxfHNlYXJjaHwxfHxNaXlhemFraSUyMGphcGFufGVufDB8MHx8fDE3NjgyMTAzNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
 heroImageAlt: "Scenic view of Miyazaki Prefecture, Japan"

@@ -12,7 +12,7 @@
 ## Tech Stack
 - Astro (static site generator)
 - GitHub Pages (hosting)
-- GitHub Actions (auto-generates posts Mon/Thu 9 AM UTC)
+- GitHub Actions (auto-generates posts Tue 9 AM UTC)
 - Claude API (content generation via claude-sonnet-4-20250514)
 - Unsplash API (copyright-free images)
 - Leaflet.js + Esri tiles (maps with English labels)
@@ -21,7 +21,7 @@
 
 ## Auto-Generation Workflow
 Posts are automatically generated and **published directly** (no draft approval step):
-1. GitHub Action runs Mon/Thu at 9 AM UTC (or manual trigger)
+1. GitHub Action runs Tue at 9 AM UTC (or manual trigger)
 2. Script selects a prefecture (prioritizes least-visited)
 3. Claude generates 800-1000 word literary essay with 2-3 image placeholders
 4. Unsplash provides hero image + 2-3 inline images for attractions/destinations

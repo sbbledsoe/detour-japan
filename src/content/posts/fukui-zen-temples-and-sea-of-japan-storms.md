@@ -1,6 +1,6 @@
 ---
 title: "Fukui: Zen Temples and Sea of Japan Storms"
-description: "Discover Fukui Prefecture's untouched beauty along the Sea of Japan coast. Ancient Zen temples, dramatic cliffs, and rural charm await travelers seeking authentic Japan."
+description: "Along the Sea of Japan coast, Fukui Prefecture reveals untouched beauty through ancient Zen temples, dramatic cliffs, and rural charm for travelers seeking authentic Japan."
 pubDate: 2026-01-12T09:57:55.035Z
 heroImage: "https://images.unsplash.com/photo-1627099177620-7755ca6705b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NTU0ODB8MHwxfHNlYXJjaHwxfHxGdWt1aSUyMGphcGFufGVufDB8MHx8fDE3NjgyMTE4NzB8MA&ixlib=rb-4.1.0&q=80&w=1080"
 heroImageAlt: "Scenic view of Fukui Prefecture, Japan"

@@ -1,10 +1,9 @@
 name: Generate Blog Post
 
 on:
-  # Run automatically on Monday and Thursday at 9:00 AM UTC
+  # Run automatically on Tuesday at 9:00 AM UTC (optimal for SEO/traffic)
   schedule:
-    - cron: "0 9 * * 1"  # Monday at 9 AM UTC
-    - cron: "0 9 * * 4"  # Thursday at 9 AM UTC
+    - cron: "0 9 * * 2"  # Tuesday at 9 AM UTC
 
   # Allow manual trigger with optional prefecture selection
   workflow_dispatch:

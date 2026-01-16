@@ -416,6 +416,12 @@ IMPORTANT for titles: Vary your style. Avoid overused words like "hidden", "secr
 - Sensory language: "The Quiet Beauty of Akita"
 - Cultural hooks: "Saga: Pottery, Shrines, and Coastal Calm"
 
+IMPORTANT for descriptions: Never start with "Discover". Vary your opening approach:
+- Lead with the geography: "Along the Sea of Japan coast, Fukui reveals..."
+- Lead with imagery: "Ancient cedar forests and volcanic slopes define..."
+- Lead with the experience: "Shikoku Island's quietest corner unfolds through..."
+- Lead with intrigue: "Japan's least populated prefecture awaits..."
+
 Blog content:
 ${content.substring(0, 500)}...
 
