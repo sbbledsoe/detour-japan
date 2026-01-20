@@ -80,7 +80,7 @@ The admin dashboard needs GitHub OAuth to let you edit content. Choose one:
 
 ## Your Workflow
 
-1. **Automatic**: New posts generated Mon & Thu at 9 AM UTC
+1. **Automatic**: New posts generated Tuesday at 9 AM UTC
 2. **You get**: Email notification (if configured)
 3. **You visit**: `https://YOUR_USERNAME.github.io/detour-japan/admin/`
 4. **You review**: Read, edit if needed
